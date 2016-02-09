@@ -1,0 +1,15 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Menu Scripts\AdvancedOptionsMenu.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Menu Scripts\OptionsMenu.cs" Line="24" Column="34" />
+      <File FileName="Assets\Scripts\Menu Scripts\MainMenu.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Menu Scripts\AdvancedOptionsMenu.cs" Line="27" Column="46" />
+      <File FileName="Assets\Scripts\LevelScripts\ExplorationGamemode.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
