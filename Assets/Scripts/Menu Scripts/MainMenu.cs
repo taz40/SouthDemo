@@ -5,6 +5,7 @@ public class MainMenu : MonoBehaviour {
 	public GameObject mainMenu;
 	public GameObject options;
 	public string nameOfStartingLevel = "TestingEnvironment";
+    public string version = "dev1";
 	// Use this for initialization
 	void Start () {
 		//PhotonNetworkingMessage.joine
@@ -22,7 +23,7 @@ public class MainMenu : MonoBehaviour {
 		Application.LoadLevel (nameOfStartingLevel);
 	}
 	public void MultiPlayer(){
-		PhotonNetwork.ConnectUsingSettings ("SouthDemo");
+		PhotonNetwork.ConnectUsingSettings ("SouthDemo v. "+version);
 		//Application.LoadLevel ("TestingEnvironment");
 	}
 	public void OnJoinedLobby(){
