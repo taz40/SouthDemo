@@ -60,6 +60,7 @@ public class PlayerController : MonoBehaviour {
 				while(trans != null){
 					if(trans.GetComponent<Interactable>() != null){
 						trans.GetComponent<Interactable>().use(gameObject);
+						trans = null;
 					}else{
 						trans = trans.parent;
 					}

@@ -112,6 +112,7 @@
      <Compile Include="Assets\Scripts\interactables\Computer.cs" />
      <Compile Include="Assets\Scripts\interactables\Interactable.cs" />
      <Compile Include="Assets\Scripts\interactables\TestInteractable.cs" />
+     <Compile Include="Assets\Scripts\interactables\monitor.cs" />
      <None Include="Assets\standard assets\effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\standard assets\effects\imageeffects\shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\standard assets\effects\imageeffects\shaders\NoiseEffectShaderRGB.shader" />
