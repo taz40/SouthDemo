@@ -1,0 +1,36 @@
+Freshman
+1A - English 9
+2A - Alg 1
+3A - Physical Education 3 - Health 3
+4A - Discovering Pathways
+1B - US History
+2B - Spanish 1
+3B - Physical Science
+4B - comp. app microsoft office
+Sophmore
+1A - Geometry
+2A - Spanish 2
+3A - Biology
+4A - English 10
+1B - Health 4 - Physical Education 4 
+2B - World Geography
+3B - Hardware Matinence - Networking
+4B - Programming in VB
+Junior
+1A - Chemistry 1
+2A - Webpage authering 1 - webpage authering 2
+3A - College bissness apps - Money 101
+4A - Spanish 3
+1B - English 11
+2B - Alg 2
+3B - us and wyo gov.
+4B - Computer graphics 1 - computergraphics 2
+Senior
+1A - Computer graphics 3 - Computer graphics 4
+2A - Chemistry 2
+3A - English 12
+4A - off
+1B - College alg. and trig.
+2B - Spanish 4
+3B - Webpage authering 3 - webpage authering 4
+4B - off
