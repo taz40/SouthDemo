@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
-public class Objective : MonoBehaviour {
+public class Objective {
+    Action objectiveSuccess;
+    Action objeciiveFailure;
+    public string objectiveName;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    public void completed() {
+
+    }
+
+    public void failed() {
+
+    }
 }

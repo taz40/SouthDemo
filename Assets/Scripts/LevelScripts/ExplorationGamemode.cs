@@ -1,8 +1,30 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System;
 
 public class ExplorationGamemode : MonoBehaviour {
+
+    protected List<Objective> objectives;
+    Action<Objective> objectiveAdded;
+    Action<Objective> objectiveRemoved;
+
+    public void addObjective(Objective o) {
+        objectives.Add(o);
+        if (objectiveAdded != null)
+            objectiveAdded(o);
+    }
+
+    public void completeObjective(string name) {
+        foreach (Objective obj in objectives) {
+            if (obj.objectiveName == name) {
+                objectives.Remove(obj);
+                obj.completed();
+                if(objectiveRemoved != null)
+                    objectiveRemoved(obj);
+            }
+        }
+    }
 
 	string[,] schedule = {
 		 {
@@ -69,7 +91,7 @@ public class ExplorationGamemode : MonoBehaviour {
 
 	public void OnJoinedRoom(){
 		GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag ("Spawner");
-		int spawnPointIndex = Random.Range (0, spawnPoints.Length);
+		int spawnPointIndex = UnityEngine.Random.Range (0, spawnPoints.Length);
 		Transform spawnPoint = spawnPoints [spawnPointIndex].transform;
 		GameObject player = PhotonNetwork.Instantiate ("MyPlayer", spawnPoint.position, spawnPoint.rotation, 0);
 		player.GetComponent<PlayerController> ().enabled = true;
