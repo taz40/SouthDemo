@@ -26,6 +26,7 @@ public class ExplorationGamemode : MonoBehaviour {
 	int schoolEnds = (2+12-1) * 60 * 60 + 45 * 60;
 	Dictionary<int, string> schedualA;
 	int lastPeriod = 0;
+	public Image scheduleImage;
 
 	// Use this for initialization
 	void Start () {
@@ -91,6 +92,11 @@ public class ExplorationGamemode : MonoBehaviour {
 			timeSec += Time.deltaTime;
 		if (timeSec > 24 * 60 * 60) {
 			timeSec -= 24*60*60;
+		}
+		if (Input.GetButton ("Schedule")) {
+			scheduleImage.enabled = true;
+		} else {
+			scheduleImage.enabled = false;
 		}
 		float currSec = timeSec;
 		int hour = Mathf.FloorToInt ((float)currSec/(60f*60f));
