@@ -39,10 +39,10 @@
 	<Reference Include="System.Core" />
 	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
-	  <HintPath>Z:/uNITY/Old Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>Z:/Old Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>Z:/uNITY/Old Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>Z:/Old Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
@@ -110,8 +110,10 @@
      <Compile Include="Assets\Scripts\Menu Scripts\MainMenu.cs" />
      <Compile Include="Assets\Scripts\Menu Scripts\OptionsMenu.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\interactables\Computer.cs" />
      <Compile Include="Assets\Scripts\interactables\Interactable.cs" />
      <Compile Include="Assets\Scripts\interactables\TestInteractable.cs" />
+     <Compile Include="Assets\Scripts\interactables\monitor.cs" />
      <None Include="Assets\standard assets\effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\standard assets\effects\imageeffects\shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\standard assets\effects\imageeffects\shaders\NoiseEffectShaderRGB.shader" />
@@ -193,16 +195,16 @@
      <None Include="Assets\standard assets\effects\imageeffects\shaders\_BloomAndFlares\BlurAndFlares.shader" />
      <None Include="Assets\standard assets\effects\imageeffects\shaders\_BloomAndFlares\BlendForBloom.shader" />
  <Reference Include="UnityEngine.UI">
- <HintPath>Z:/uNITY/Old Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ <HintPath>Z:/Old Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="Photon3Unity3D">
- <HintPath>C:/Users/130288/Dropbox/SouthDemo/Assets/Plugins/Photon3Unity3D.dll</HintPath>
+ <HintPath>C:/Users/108147/Documents/github/SouthDemo/Assets/Plugins/Photon3Unity3D.dll</HintPath>
  </Reference>
  <Reference Include="websocket-sharp">
- <HintPath>C:/Users/130288/Dropbox/SouthDemo/Assets/Plugins/WebSocket/websocket-sharp.dll</HintPath>
+ <HintPath>C:/Users/108147/Documents/github/SouthDemo/Assets/Plugins/WebSocket/websocket-sharp.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
- <HintPath>Z:/uNITY/Old Unity/Editor/Data/PlaybackEngines/iossupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+ <HintPath>Z:/Old Unity/Editor/Data/PlaybackEngines/iossupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

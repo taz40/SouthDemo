@@ -5,6 +5,13 @@ public class ExplorationGamemode : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		if (!PhotonNetwork.connected) {
+			PhotonNetwork.ConnectUsingSettings ("SouthDemo v. " + MainMenu.version);
+		} else {
+			PhotonNetwork.JoinRandomRoom ();
+		}
+	}
+	public void OnJoinedLobby(){
 		PhotonNetwork.JoinRandomRoom ();
 	}
 
@@ -24,6 +31,6 @@ public class ExplorationGamemode : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
 	}
 }

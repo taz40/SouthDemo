@@ -5,7 +5,7 @@ public class MainMenu : MonoBehaviour {
 	public GameObject mainMenu;
 	public GameObject options;
 	public string nameOfStartingLevel = "TestingEnvironment";
-    public string version = "dev1";
+    public static string version = "dev1";
 	// Use this for initialization
 	void Start () {
 		//PhotonNetworkingMessage.joine

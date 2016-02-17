@@ -56,8 +56,14 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetButtonDown ("Use")) {
 			RaycastHit info;
 			if(Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out info, useRange)){
-				if(info.collider.GetComponent<Interactable>() != null){
-					info.collider.GetComponent<Interactable>().use(gameObject);
+				Transform trans = info.collider.transform;
+				while(trans != null){
+					if(trans.GetComponent<Interactable>() != null){
+						trans.GetComponent<Interactable>().use(gameObject);
+						trans = null;
+					}else{
+						trans = trans.parent;
+					}
 				}
 			}
 		}
