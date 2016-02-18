@@ -13,18 +13,74 @@ public class ExplorationGamemode : MonoBehaviour {
         objectives.Add(o);
         if (objectiveAdded != null)
             objectiveAdded(o);
+		updateObjectiveList ();
     }
 
     public void completeObjective(string name) {
+		Objective o = null;
         foreach (Objective obj in objectives) {
             if (obj.objectiveName == name) {
-                objectives.Remove(obj);
-                obj.completed();
-                if(objectiveRemoved != null)
-                    objectiveRemoved(obj);
+				o = obj;
+				break;
             }
         }
+		o.completed();
+		objectives.Remove (o);
+		if(objectiveRemoved != null)
+			objectiveRemoved(o);
+		updateObjectiveList ();
     }
+
+	public void failedObjective(string name) {
+		Objective o = null;
+		foreach (Objective obj in objectives) {
+			if (obj.objectiveName == name) {
+				o = obj;
+				break;
+			}
+		}
+		o.failed();
+		objectives.Remove (o);
+		if(objectiveRemoved != null)
+			objectiveRemoved(o);
+		updateObjectiveList ();
+	}
+
+	public void RegisterObjectiveAddedCallback(Action<Objective> callback){
+		objectiveAdded += callback;
+	}
+
+	public void UnregisterObjectiveAddedCallback(Action<Objective> callback){
+		objectiveAdded -= callback;
+	}
+
+	public void RegisterObjectiveRemovedCallback(Action<Objective> callback){
+		objectiveRemoved += callback;
+	}
+	
+	public void UnregisterObjectiveRemovedCallback(Action<Objective> callback){
+		objectiveRemoved -= callback;
+	}
+
+	public Transform objectivesTransform;
+
+	void updateObjectiveList(){
+		for (int i = 0; i < objectivesTransform.childCount; i++) {
+			Transform objectiveListItem = objectivesTransform.GetChild(i);
+			GameObject.Destroy(objectiveListItem.gameObject);
+		}
+
+		int offset = 0;
+		foreach (Objective o in objectives) {
+			Debug.Log("adding objective " + o.objectiveName);
+			GameObject objectiveListItem = GameObject.Instantiate(objectivesTransform.gameObject);
+			objectiveListItem.name = "OLI_"+o.objectiveName;
+			offset += 10;
+			objectiveListItem.transform.position = new Vector3(objectivesTransform.position.x,objectivesTransform.position.y-offset,objectivesTransform.position.z);
+			objectiveListItem.GetComponent<Text>().text = o.objectiveName;
+			objectiveListItem.transform.parent = objectivesTransform;
+		}
+	}
 
 	string[,] schedule = {
 		 {
@@ -46,7 +102,7 @@ public class ExplorationGamemode : MonoBehaviour {
 	int abcday = 0; // 0 = A, 1 = B, 2 = C
 	int schoolStarts = (7-1) * 60 * 60 + 40 * 60;
 	int schoolEnds = (2+12-1) * 60 * 60 + 45 * 60;
-	Dictionary<int, string> schedualA;
+	List<Period> schedualA;
 	int lastPeriod = 0;
 	public Image scheduleImage;
 
@@ -57,18 +113,41 @@ public class ExplorationGamemode : MonoBehaviour {
 		} else {
 			PhotonNetwork.JoinRandomRoom ();
 		}
-		schedualA = new Dictionary<int, string> ();
-		schedualA.Add(getSec(7,40,0), "1APassing");
-		schedualA.Add(getSec(7,45,0), "1A");
-		schedualA.Add(getSec(9,5,0), "ELOPassing");
-		schedualA.Add(getSec(9,10,0), "ELO");
-		schedualA.Add(getSec(9,50,0), "2APassing");
-		schedualA.Add(getSec(9,55,0), "2A");
-		schedualA.Add(getSec(11,15,0), "Lunch");
-		schedualA.Add(getSec(11,55,0), "3APassing");
-		schedualA.Add(getSec(12,0,0), "3A");
-		schedualA.Add(getSec(13,20,0), "4APassing");
-		schedualA.Add(getSec(13,25,0), "4A");
+		schedualA = new List<Period> ();
+		Period period = new Period (getSec(7,40,0), "1APassing");
+		// TODO: add 1APassing objectives here
+		period.objectives.Add (new Objective ("Go to Room A221"));
+		schedualA.Add(period);
+		period = new Period (getSec(7,45,0), "1A");
+		// TODO: add 1A objectives here
+		schedualA.Add(period);
+		period = new Period (getSec(9,5,0), "ELOPassing");
+		// TODO: add ELOPassing objectives here
+		schedualA.Add(period);
+		period = new Period (getSec(9,10,0), "ELO");
+		// TODO: add ELO objectives here
+		schedualA.Add(period);
+		period = new Period (getSec(9,50,0), "2APassing");
+		// TODO: add 2APassing objectives here
+		schedualA.Add(period);
+		period = new Period (getSec(9,55,0), "2A");
+		// TODO: add 2A objectives here
+		schedualA.Add(period);
+		period = new Period (getSec(11,15,0), "Lunch");
+		// TODO: add Lunch objectives here
+		schedualA.Add(period);
+		period = new Period (getSec(11,55,0), "3APassing");
+		// TODO: add 3APassing objectives here
+		schedualA.Add(period);
+		period = new Period (getSec(12,0,0), "3A");
+		// TODO: add 3A objectives here
+		schedualA.Add(period);
+		period = new Period (getSec(13,20,0), "4APassing");
+		// TODO: add 4APassing objectives here
+		schedualA.Add(period);
+		period = new Period (getSec(13,25,0), "4A");
+		// TODO: add 4A objectives here
+		schedualA.Add(period);
 	}
 
 	public int getSec(int hour, int min, int sec){
@@ -97,6 +176,8 @@ public class ExplorationGamemode : MonoBehaviour {
 		player.GetComponent<PlayerController> ().enabled = true;
 		player.transform.FindChild ("CameraHinge").gameObject.SetActive (true);
 		setTime (7, 39, 55);
+		objectives = new List<Objective> ();
+		updateObjectiveList ();
 	}
 
 	public void OnPhotonRandomJoinFailed(){
@@ -144,13 +225,31 @@ public class ExplorationGamemode : MonoBehaviour {
 		}
 		if ((timeSec < schoolStarts) || timeSec > schoolEnds) {
 			period.text = "School Not In Session.";
-			lastPeriod = 0;
+			if(lastPeriod != 0){
+				lastPeriod = 0;
+				Objective[] objectivesTemp = new Objective[objectives.Count];
+				objectives.CopyTo(objectivesTemp);
+				foreach(Objective o in objectivesTemp){
+					if(o.periodBound)
+						failedObjective(o.objectiveName);
+				}
+			}
 		}else{
 			if (abcday  == 0) {
-				foreach(int startTime in schedualA.Keys){
+				foreach(Period p in schedualA){
+					int startTime = p.startTime;
 					if(timeSec >= startTime && lastPeriod < startTime){
-						period.text = schedualA[startTime];
+						period.text = p.name;
 						lastPeriod = (int)timeSec;
+						Objective[] objectivesTemp = new Objective[objectives.Count];
+						objectives.CopyTo(objectivesTemp);
+						foreach(Objective o in objectivesTemp){
+							if(o.periodBound)
+								failedObjective(o.objectiveName);
+						}
+						foreach(Objective o in p.objectives){
+							addObjective(new Objective(o.objectiveName, o.periodBound));
+						}
 					}
 				}
 			}

@@ -6,7 +6,7 @@ public class Period {
 	public int startTime;
 	public List<Objective> objectives;
 
-	public Period(string name, int startTime){
+	public Period(int startTime, string name){
 		this.name = name;
 		this.startTime = startTime;
 		objectives = new List<Objective> ();

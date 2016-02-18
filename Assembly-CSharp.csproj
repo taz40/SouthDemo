@@ -106,7 +106,9 @@
      <Compile Include="Assets\Photon Unity Networking\UtilityScripts\TimeKeeper.cs" />
      <Compile Include="Assets\Scripts\LevelScripts\ExplorationGamemode.cs" />
      <Compile Include="Assets\Scripts\LevelScripts\Objective.cs" />
+     <Compile Include="Assets\Scripts\LevelScripts\ObjectiveTrigger.cs" />
      <Compile Include="Assets\Scripts\LevelScripts\Period.cs" />
+     <Compile Include="Assets\Scripts\LevelScripts\RoomEntrance.cs" />
      <Compile Include="Assets\Scripts\Menu Scripts\AdvancedOptionsMenu.cs" />
      <Compile Include="Assets\Scripts\Menu Scripts\MainMenu.cs" />
      <Compile Include="Assets\Scripts\Menu Scripts\OptionsMenu.cs" />
