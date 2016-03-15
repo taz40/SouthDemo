@@ -16,16 +16,25 @@ public class PlayerController : MonoBehaviour {
 	public bool holdToCrouch = true;
 	bool crouching = false;
 	float amountToLean = 10;
+    public static bool cursorLocked = true;
 
 	// Use this for initialization
 	void Start () {
+        ChoiceManager.instance.init();
 		cc = this.GetComponent<CharacterController> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		Cursor.lockState = CursorLockMode.Locked;
-		Cursor.visible = false;
+        if (cursorLocked)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
 		upwardVelocity += Physics.gravity.y*Time.deltaTime;
 		if (cc.isGrounded && upwardVelocity < Physics.gravity.y) {
 			upwardVelocity = Physics.gravity.y;
