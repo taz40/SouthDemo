@@ -1,11 +1,11 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
-Project("{2326F121-B634-AC6E-A0A4-3C3392DE89E6}") = "SouthDemo", "Assembly-CSharp-firstpass.csproj", "{BE7BEEBA-6D9A-9DC4-ABCF-E178F642CA34}"
+Project("{2326F121-B634-AC6E-A0A4-3C3392DE89E6}") = "SouthDemo", "Assembly-CSharp-firstpass-vs.csproj", "{BE7BEEBA-6D9A-9DC4-ABCF-E178F642CA34}"
 EndProject
-Project("{2326F121-B634-AC6E-A0A4-3C3392DE89E6}") = "SouthDemo", "Assembly-CSharp.csproj", "{62BFCA42-AA51-7118-3263-17E1AA58DA51}"
+Project("{2326F121-B634-AC6E-A0A4-3C3392DE89E6}") = "SouthDemo", "Assembly-CSharp-vs.csproj", "{62BFCA42-AA51-7118-3263-17E1AA58DA51}"
 EndProject
-Project("{2326F121-B634-AC6E-A0A4-3C3392DE89E6}") = "SouthDemo", "Assembly-CSharp-Editor.csproj", "{1519D976-37AB-FC12-F93B-BF0CD7BB5C60}"
+Project("{2326F121-B634-AC6E-A0A4-3C3392DE89E6}") = "SouthDemo", "Assembly-CSharp-Editor-vs.csproj", "{1519D976-37AB-FC12-F93B-BF0CD7BB5C60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,7 +29,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-					GlobalSection(MonoDevelopProperties) = preSolution
+						GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 	EndGlobalSection
 
