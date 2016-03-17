@@ -1,0 +1,103 @@
+package Cheyenne.southhigh.gamedevclub.dialogcreator;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.awt.Font;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import com.jgoodies.forms.layout.FormSpecs;
+import java.awt.GridLayout;
+import java.awt.event.ActionListener;
+import java.util.Set;
+import java.awt.event.ActionEvent;
+
+public class NewOrOpen extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					NewOrOpen frame = new NewOrOpen();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+	public static void setDefaultSize(int size) {
+
+        Set<Object> keySet = UIManager.getLookAndFeelDefaults().keySet();
+        Object[] keys = keySet.toArray(new Object[keySet.size()]);
+
+        for (Object key : keys) {
+
+            if (key != null && key.toString().toLowerCase().contains("font")) {
+
+                //System.out.println(key);
+                Font font = UIManager.getDefaults().getFont(key);
+                if (font != null) {
+                    font = font.deriveFont((float)size);
+                    UIManager.put(key, font);
+                }
+
+            }
+
+        }
+
+    }
+
+	/**
+	 * Create the frame.
+	 */
+	public NewOrOpen() {
+		 try {
+             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+             ex.printStackTrace();
+         }
+		 
+		 setDefaultSize(24);
+		setTitle("Select File");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 488, 307);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		JButton btnNewFile = new JButton("new File");
+		JFrame instance = this;
+		btnNewFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				instance.dispose();
+				new Main().init(true);
+			}
+		});
+		contentPane.add(btnNewFile);
+		
+		JButton btnOpenfile = new JButton("OpenFile");
+		btnOpenfile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				instance.dispose();
+				new Main().init(false);
+			}
+		});
+		contentPane.add(btnOpenfile);
+	}
+
+}
