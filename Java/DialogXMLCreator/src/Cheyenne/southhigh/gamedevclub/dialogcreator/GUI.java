@@ -29,9 +29,10 @@ public class GUI extends JFrame implements ActionListener {
 	int windowHeight = 800;
 	int windowWidth = 600;
 	int state = 0;
-	ArrayList<Choice> choices = new ArrayList<Choice>();
+	ArrayList<ChoiceGroup> choiceGroups = new ArrayList<ChoiceGroup>();
 	Stack<Choice> choiceStack = new Stack<Choice>();
 	Stack<Option> optionStack = new Stack<Option>();
+	ChoiceGroup currentGroup;
 	Choice currentChoice;
 	Option currentOption;
 	String path;
@@ -59,12 +60,11 @@ public class GUI extends JFrame implements ActionListener {
 				NamedNodeMap attributes = node.getAttributes();
 				currentChoice.Description = attributes.getNamedItem("Desc").getNodeValue();
 				currentChoice.name = attributes.getNamedItem("id").getNodeValue();
-				currentChoice.tag = attributes.getNamedItem("tag").getNodeValue();
 				doNodes(node.getChildNodes());
 				if(currentOption != null){
 					currentOption.resultingChoice = currentChoice;
 				}else{
-					choices.add(currentChoice);
+					currentGroup.choices.add(currentChoice);
 				}
 				if(choiceStack.isEmpty()){
 					currentChoice = null;
@@ -87,6 +87,13 @@ public class GUI extends JFrame implements ActionListener {
 					currentOption = optionStack.pop();
 			}else if(node.getNodeName().equals("Choices")){
 				doNodes(node.getChildNodes());
+			}else if(node.getNodeName().equals("ChoiceGroup")){
+				currentGroup = new ChoiceGroup();
+				NamedNodeMap attributes = node.getAttributes();
+				currentGroup.name = attributes.getNamedItem("name").getNodeValue();
+				doNodes(node.getChildNodes());
+				choiceGroups.add(currentGroup);
+				currentGroup = null;
 			}
 		}
 	}
@@ -127,9 +134,9 @@ public class GUI extends JFrame implements ActionListener {
 	      
 	      //Add a button for each contact in the address book (from a LinkedList)
 	      if(state == 0){
-	    	  System.out.println(choices.size());
-	    	  for(int i = 0; i < choices.size(); i++){
-	    		  Choice c = choices.get(i);
+	    	  System.out.println(choiceGroups.size());
+	    	  for(int i = 0; i < choiceGroups.size(); i++){
+	    		  ChoiceGroup c = choiceGroups.get(i);
 	    		  JButton button = new JButton();
 			      button.setText(c.name); //contactList.get(i).getSurname() + ", " + contactList.get(i).getGivenName());
 			      contactListPanel.add(button);

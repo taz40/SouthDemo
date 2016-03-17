@@ -8,4 +8,5 @@
 <fullyQualifiedTypeName name="org.w3c.dom.Node"/>
 <fullyQualifiedTypeName name="java.util.Stack"/>
 <fullyQualifiedTypeName name="javax.swing.JFileChooser"/>
+<fullyQualifiedTypeName name="Cheyenne.southhigh.gamedevclub.dialogcreator.ChoiceGroup"/>
 </qualifiedTypeNameHistroy>
