@@ -105,6 +105,7 @@ public class ExplorationGamemode : MonoBehaviour {
 	List<Period> schedualA;
 	int lastPeriod = 0;
 	public Image scheduleImage;
+    public static bool timeFrozen = false;
 
 	// Use this for initialization
 	void Start () {
@@ -187,73 +188,92 @@ public class ExplorationGamemode : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKey("j"))
-			timeSec += Time.deltaTime*60;
-		else if(Input.GetKey("k"))
-			timeSec += Time.deltaTime*60*60;
-		else
-			timeSec += Time.deltaTime;
-		if (timeSec > 24 * 60 * 60) {
-			timeSec -= 24*60*60;
-		}
-		if (Input.GetButton ("Schedule")) {
-			scheduleImage.enabled = true;
-		} else {
-			scheduleImage.enabled = false;
-		}
-		float currSec = timeSec;
-		int hour = Mathf.FloorToInt ((float)currSec/(60f*60f));
-		currSec -= hour * 60 * 60;
-		hour += 1;
-		int min = Mathf.FloorToInt ((float)currSec / 60f);
-		currSec -= min * 60;
-		int sec = (int)currSec;
-		string ampm = "AM";
-		if (hour >= 12 && hour != 24) {
-			ampm = "PM";
-		}
-		if (hour > 12) {
-			hour -= 12;
-		}
-		string minstr = ""+min;
-		string secstr = ""+sec;
-		if (min < 10) {
-			minstr = "0" + min;
-		}
-		if (sec < 10) {
-			secstr = "0" + sec;
-		}
-		if ((timeSec < schoolStarts) || timeSec > schoolEnds) {
-			period.text = "School Not In Session.";
-			if(lastPeriod != 0){
-				lastPeriod = 0;
-				Objective[] objectivesTemp = new Objective[objectives.Count];
-				objectives.CopyTo(objectivesTemp);
-				foreach(Objective o in objectivesTemp){
-					if(o.periodBound)
-						failedObjective(o.objectiveName);
-				}
-			}
-		}else{
-			if (abcday  == 0) {
-				foreach(Period p in schedualA){
-					int startTime = p.startTime;
-					if(timeSec >= startTime && lastPeriod < startTime){
-						period.text = p.name;
-						lastPeriod = (int)timeSec;
-						Objective[] objectivesTemp = new Objective[objectives.Count];
-						objectives.CopyTo(objectivesTemp);
-						foreach(Objective o in objectivesTemp){
-							if(o.periodBound)
-								failedObjective(o.objectiveName);
-						}
-						foreach(Objective o in p.objectives){
-							addObjective(new Objective(o.objectiveName, o.periodBound));
-						}
-					}
-				}
-			}
-		}
-		time.text = hour + ":" + minstr + ":" + secstr + " " + ampm;
+        if (!timeFrozen)
+        {
+            if (Input.GetKey("j"))
+                timeSec += Time.deltaTime * 60;
+            else if (Input.GetKey("k"))
+                timeSec += Time.deltaTime * 60 * 60;
+            else
+                timeSec += Time.deltaTime;
+            if (timeSec > 24 * 60 * 60)
+            {
+                timeSec -= 24 * 60 * 60;
+            }
+            if (Input.GetButton("Schedule"))
+            {
+                scheduleImage.enabled = true;
+            }
+            else {
+                scheduleImage.enabled = false;
+            }
+        }
+        float currSec = timeSec;
+        int hour = Mathf.FloorToInt((float)currSec / (60f * 60f));
+        currSec -= hour * 60 * 60;
+        hour += 1;
+        int min = Mathf.FloorToInt((float)currSec / 60f);
+        currSec -= min * 60;
+        int sec = (int)currSec;
+        string ampm = "AM";
+        if (hour >= 12 && hour != 24)
+        {
+            ampm = "PM";
+        }
+        if (hour > 12)
+        {
+            hour -= 12;
+        }
+        string minstr = "" + min;
+        string secstr = "" + sec;
+        if (min < 10)
+        {
+            minstr = "0" + min;
+        }
+        if (sec < 10)
+        {
+            secstr = "0" + sec;
+        }
+        if ((timeSec < schoolStarts) || timeSec > schoolEnds)
+        {
+            period.text = "School Not In Session.";
+            if (lastPeriod != 0)
+            {
+                lastPeriod = 0;
+                Objective[] objectivesTemp = new Objective[objectives.Count];
+                objectives.CopyTo(objectivesTemp);
+                foreach (Objective o in objectivesTemp)
+                {
+                    if (o.periodBound)
+                        failedObjective(o.objectiveName);
+                }
+            }
+        }
+        else {
+            if (abcday == 0)
+            {
+                foreach (Period p in schedualA)
+                {
+                    int startTime = p.startTime;
+                    if (timeSec >= startTime && lastPeriod < startTime)
+                    {
+                        period.text = p.name;
+                        lastPeriod = (int)timeSec;
+                        Objective[] objectivesTemp = new Objective[objectives.Count];
+                        objectives.CopyTo(objectivesTemp);
+                        foreach (Objective o in objectivesTemp)
+                        {
+                            if (o.periodBound)
+                                failedObjective(o.objectiveName);
+                        }
+                        foreach (Objective o in p.objectives)
+                        {
+                            addObjective(new Objective(o.objectiveName, o.periodBound));
+                        }
+                    }
+                }
+            }
+        }
+        time.text = hour + ":" + minstr + ":" + secstr + " " + ampm;
 	}
 }

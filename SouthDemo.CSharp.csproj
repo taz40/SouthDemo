@@ -156,6 +156,7 @@
     <None Include="Assets\Photon Unity Networking\readme.txt" />
     <None Include="Assets\Plugins\Photon3Unity3D.xml" />
     <None Include="Assets\Plugins\release_history.txt" />
+    <None Include="Assets\Resources\XML\Choices_School.xml" />
     <None Include="Assets\standard assets\effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
     <None Include="Assets\standard assets\effects\Projectors\Shaders\ProjectorLight.shader" />
     <None Include="Assets\standard assets\effects\Projectors\Shaders\ProjectorMultiply.shader" />
