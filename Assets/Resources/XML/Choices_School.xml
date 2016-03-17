@@ -1,0 +1,18 @@
+<Choices>
+  <Choice tag="Startup" id="test1" Desc="Homework or Party?">
+    <Option Desc="Party!" Response="">
+      <Choice tag="resultingChoice" id="testSub2" Desc="Who's House?">
+        <Option Desc="Alex's House" Response="Uncharted"> </Option>
+        <Option Desc="Aron's House" Response="Far Cry Primal"> </Option>
+        <Option Desc="Samuel's House" Response="Starcraft II"> </Option>
+      </Choice>
+    </Option>
+    <Option Desc="Homework" Response="">
+      <Choice tag="resultingChoice" id="testSub1" Desc="Math or English?">
+        <Option Desc="Math" Response="Nerd!"> </Option>
+        <Option Desc="English" Response="Boring..."> </Option>
+        <Option Desc="Science" Response="Boom!"> </Option>
+      </Choice>
+    </Option>
+  </Choice>
+</Choices>

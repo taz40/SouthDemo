@@ -58,12 +58,6 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -140,21 +134,29 @@
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\SmoothSyncMovement.cs" />
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\SupportLogger.cs" />
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\TimeKeeper.cs" />
+    <Compile Include="Assets\Scripts\Choice System\Choice.cs" />
+    <Compile Include="Assets\Scripts\Choice System\ChoiceManager.cs" />
+    <Compile Include="Assets\Scripts\Choice System\Option.cs" />
     <Compile Include="Assets\Scripts\LevelScripts\ExplorationGamemode.cs" />
     <Compile Include="Assets\Scripts\LevelScripts\Objective.cs" />
+    <Compile Include="Assets\Scripts\LevelScripts\ObjectiveTrigger.cs" />
     <Compile Include="Assets\Scripts\LevelScripts\Period.cs" />
+    <Compile Include="Assets\Scripts\LevelScripts\RoomEntrance.cs" />
     <Compile Include="Assets\Scripts\Menu Scripts\AdvancedOptionsMenu.cs" />
     <Compile Include="Assets\Scripts\Menu Scripts\MainMenu.cs" />
     <Compile Include="Assets\Scripts\Menu Scripts\OptionsMenu.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\interactables\Computer.cs" />
     <Compile Include="Assets\Scripts\interactables\Interactable.cs" />
     <Compile Include="Assets\Scripts\interactables\TestInteractable.cs" />
+    <Compile Include="Assets\Scripts\interactables\monitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Photon Unity Networking\changelog.txt" />
     <None Include="Assets\Photon Unity Networking\readme.txt" />
     <None Include="Assets\Plugins\Photon3Unity3D.xml" />
     <None Include="Assets\Plugins\release_history.txt" />
+    <None Include="Assets\Resources\XML\Choices_School.xml" />
     <None Include="Assets\standard assets\effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
     <None Include="Assets\standard assets\effects\Projectors\Shaders\ProjectorLight.shader" />
     <None Include="Assets\standard assets\effects\Projectors\Shaders\ProjectorMultiply.shader" />
