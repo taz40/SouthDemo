@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/DialogXMLCreator/src/Cheyenne/southhigh/gamedevclub/dialogcreator/NewOrOpen.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="Cheyenne.southhigh.gamedevclub.dialogcreator.NewOrOpen"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="DialogXMLCreator"/>
+</launchConfiguration>

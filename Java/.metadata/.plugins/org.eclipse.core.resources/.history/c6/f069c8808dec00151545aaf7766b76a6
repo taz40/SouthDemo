@@ -1,0 +1,10 @@
+package Cheyenne.southhigh.gamedevclub.dialogcreator;
+
+import java.util.Dictionary;
+
+public class Option {
+	public String Description;
+	public Dictionary<String, Integer> values= new Dictionary<String, Integer>();
+	public String Response;
+	public Choice resultingChoice; 
+}
