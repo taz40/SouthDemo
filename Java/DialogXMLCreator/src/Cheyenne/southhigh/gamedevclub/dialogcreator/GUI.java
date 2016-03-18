@@ -369,6 +369,8 @@ public class GUI extends JFrame implements ActionListener {
                         null,
                         null,
                         "Group");
+				if(s == null)
+					s = "";
 				ChoiceGroup g = new ChoiceGroup();
 				g.name = s;
 				choiceGroups.add(g);
@@ -395,6 +397,8 @@ public class GUI extends JFrame implements ActionListener {
                         null,
                         null,
                         currentGroup.name);
+				if(s == null)
+					s = "";
 				currentGroup.name = s;
 				saveXMLFile();
 				this.setContentPane(new JPanel());
@@ -427,6 +431,8 @@ public class GUI extends JFrame implements ActionListener {
                         null,
                         null,
                         "Choice");
+				if(s == null)
+					s = "";
 				Choice c = new Choice();
 				c.name = s;
 				currentGroup.choices.add(c);
@@ -476,6 +482,8 @@ public class GUI extends JFrame implements ActionListener {
                         null,
                         null,
                         "Choice");
+				if(s == null)
+					s = "";
 				Option o = new Option();
 				o.Description = s;
 				currentChoice.Options.add(o);
@@ -492,6 +500,8 @@ public class GUI extends JFrame implements ActionListener {
                         null,
                         null,
                         currentChoice.name);
+				if(s == null)
+					s = "";
 				currentChoice.name = s;
 				saveXMLFile();
 				this.setContentPane(new JPanel());
@@ -506,6 +516,8 @@ public class GUI extends JFrame implements ActionListener {
                         null,
                         null,
                         currentChoice.Description);
+				if(s == null)
+					s = "";
 				currentChoice.Description = s;
 				saveXMLFile();
 				this.setContentPane(new JPanel());
@@ -541,6 +553,8 @@ public class GUI extends JFrame implements ActionListener {
                         null,
                         null,
                         "Choice");
+				if(s == null)
+					s = "";
 				Choice c = new Choice();
 				c.name = s;
 				currentOption.resultingChoice = c;
@@ -557,6 +571,8 @@ public class GUI extends JFrame implements ActionListener {
                         null,
                         null,
                         currentOption.Description);
+				if(s == null)
+					s = "";
 				currentOption.Description = s;
 				saveXMLFile();
 				this.setContentPane(new JPanel());
@@ -571,6 +587,8 @@ public class GUI extends JFrame implements ActionListener {
                         null,
                         null,
                         currentOption.Response);
+				if(s == null)
+					s = "";
 				currentOption.Response = s;
 				saveXMLFile();
 				this.setContentPane(new JPanel());
