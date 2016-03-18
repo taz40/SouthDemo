@@ -3,5 +3,5 @@ using System.Collections.Generic;
 
 public class ChoiceGroup {
     public string name;
-    public List<Choice> choices = new List<Choice>();
+    public Dictionary<string, Choice> choices = new Dictionary<string, Choice>();
 }

@@ -51,14 +51,16 @@ public class GUI extends JFrame implements ActionListener {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			Document doc = db.newDocument();
+			Element root = doc.createElement("Choices");
 			for(ChoiceGroup g : choiceGroups){
 				Element group = doc.createElement("ChoiceGroup");
 				group.setAttribute("name", g.name);
 				for(Choice c : g.choices){
 					addChoice(c, group, doc);
 				}
-				doc.appendChild(group);
+				root.appendChild(group);
 			}
+			doc.appendChild(root);
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
 			Result output = new StreamResult(new File(path));
 			Source input = new DOMSource(doc);
@@ -336,9 +338,13 @@ public class GUI extends JFrame implements ActionListener {
 		if(newFile){
 			fileChooser.showSaveDialog(null);
 			path = fileChooser.getSelectedFile().toString();
+			if (!path .endsWith(".xml"))
+				path += ".xml";
 		}else{
 			fileChooser.showOpenDialog(null);
 			path = fileChooser.getSelectedFile().toString();
+			if (!path .endsWith(".xml"))
+				path += ".xml";
 			loadXMLFile(path);
 		}
 		 try {
@@ -354,6 +360,22 @@ public class GUI extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		// TODO Auto-generated method stub
 		if(state == 0){
+			if(event.getActionCommand().equals("Add")){
+				String s = (String)JOptionPane.showInputDialog(
+                        this,
+                        "New Value:",
+                        "ModifyValue",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        "Group");
+				ChoiceGroup g = new ChoiceGroup();
+				g.name = s;
+				choiceGroups.add(g);
+				saveXMLFile();
+				this.setContentPane(new JPanel());
+				setupButtons();
+			}
 			for(ChoiceGroup g : choiceGroups){
 				if(g.name.equals(event.getActionCommand())){
 					currentGroup = g;
@@ -378,21 +400,89 @@ public class GUI extends JFrame implements ActionListener {
 				this.setContentPane(new JPanel());
 				setupButtons();
 			}
+			if(event.getActionCommand().equals("Remove")){
+				choiceGroups.remove(currentGroup);
+				currentGroup = null;
+				state = 0;
+				saveXMLFile();
+				this.setContentPane(new JPanel());
+				setupButtons();
+			}else{
+				for(Choice c : currentGroup.choices){
+					if(c.name.equals(event.getActionCommand())){
+						currentChoice = c;
+						state = 2;
+						this.setContentPane(new JPanel());
+						setupButtons();
+						break;
+					}
+				}
+			}
+			if(event.getActionCommand().equals("Add")){
+				String s = (String)JOptionPane.showInputDialog(
+                        this,
+                        "New Value:",
+                        "ModifyValue",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        "Choice");
+				Choice c = new Choice();
+				c.name = s;
+				currentGroup.choices.add(c);
+				saveXMLFile();
+				this.setContentPane(new JPanel());
+				setupButtons();
+			}
 			if(event.getActionCommand().equals("Back")){
 				state = 0;
 				this.setContentPane(new JPanel());
 				setupButtons();
 			}
-			for(Choice c : currentGroup.choices){
-				if(c.name.equals(event.getActionCommand())){
-					currentChoice = c;
-					state = 2;
-					this.setContentPane(new JPanel());
-					setupButtons();
-					break;
+		}else if(state == 2){
+			if(event.getActionCommand().equals("Remove")){
+				if(optionStack.isEmpty()){
+					state = 1;
+					currentGroup.choices.remove(currentChoice);
+					currentChoice = null;
+				}else{
+					currentOption = optionStack.pop();
+					state = 3;
+					currentOption.resultingChoice = null;
+					currentChoice = null;
+				}
+				setupButtons();
+				saveXMLFile();
+				this.setContentPane(new JPanel());
+				setupButtons();
+			}else{
+				for(Option o : currentChoice.Options){
+					if(o.Description.equals(event.getActionCommand())){
+						currentOption = o;
+						state = 3;
+						choiceStack.push(currentChoice);
+						this.setContentPane(new JPanel());
+						setupButtons();
+						break;
+					}
 				}
 			}
-		}else if(state == 2){
+			if(event.getActionCommand().equals("Add")){
+				String s = (String)JOptionPane.showInputDialog(
+                        this,
+                        "New Value:",
+                        "ModifyValue",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        "Choice");
+				Option o = new Option();
+				o.Description = s;
+				currentChoice.Options.add(o);
+				saveXMLFile();
+				this.setContentPane(new JPanel());
+				setupButtons();
+			}
 			if(event.getActionCommand().equals("Name")){
 				String s = (String)JOptionPane.showInputDialog(
                         this,
@@ -431,17 +521,33 @@ public class GUI extends JFrame implements ActionListener {
 				this.setContentPane(new JPanel());
 				setupButtons();
 			}
-			for(Option o : currentChoice.Options){
-				if(o.Description.equals(event.getActionCommand())){
-					currentOption = o;
-					state = 3;
-					choiceStack.push(currentChoice);
-					this.setContentPane(new JPanel());
-					setupButtons();
-					break;
-				}
-			}
 		}else if(state == 3){
+			if(event.getActionCommand().equals("Remove")){
+				currentChoice = choiceStack.pop();
+				currentChoice.Options.remove(currentOption);
+				currentOption = null;
+				state = 2;
+				setupButtons();
+				saveXMLFile();
+				this.setContentPane(new JPanel());
+				setupButtons();
+			}
+			if(event.getActionCommand().equals("Add")){
+				String s = (String)JOptionPane.showInputDialog(
+                        this,
+                        "New Value:",
+                        "ModifyValue",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        "Choice");
+				Choice c = new Choice();
+				c.name = s;
+				currentOption.resultingChoice = c;
+				saveXMLFile();
+				this.setContentPane(new JPanel());
+				setupButtons();
+			}
 			if(event.getActionCommand().equals("Name")){
 				String s = (String)JOptionPane.showInputDialog(
                         this,

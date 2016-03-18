@@ -47,7 +47,7 @@ public class ChoiceManager : MonoBehaviour {
                             currentOption.resultingChoice = currentChoice;
                         }
                         else {
-                            currentgroup.choices.Add(currentChoice);
+                            currentgroup.choices.Add(currentChoice.name, currentChoice);
                         }
                         if (choices.Count > 0)
                             currentChoice = choices.Pop();
@@ -66,7 +66,7 @@ public class ChoiceManager : MonoBehaviour {
                             currentOption.resultingChoice = currentChoice;
                         }
                         else {
-                            currentgroup.choices.Add(currentChoice);
+                            currentgroup.choices.Add(currentChoice.name, currentChoice);
                         }
                         if (choices.Count > 0)
                             currentChoice = choices.Pop();
@@ -148,7 +148,7 @@ public class ChoiceManager : MonoBehaviour {
                 }
             }
         }
-        showChoice(choiceGroups["Startup"].choices[0]);
+        showChoice(choiceGroups["BeforeSchoolCommons"].choices["David"]);
         /*
         choice = new Choice();
         choice.Description = "Party or Homework?";
