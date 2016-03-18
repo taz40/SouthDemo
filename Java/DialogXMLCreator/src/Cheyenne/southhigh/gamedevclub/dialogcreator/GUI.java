@@ -11,14 +11,23 @@ import java.util.Stack;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -28,7 +37,7 @@ public class GUI extends JFrame implements ActionListener {
 	private JPanel contentPane;
 	int windowHeight = 800;
 	int windowWidth = 600;
-	int state = 0;
+	int state = 0; // 0 = choiceGroupSelector, 1 = ChoiceSelector, 2 = ChoiceInfo, 3 = OptionInfo
 	ArrayList<ChoiceGroup> choiceGroups = new ArrayList<ChoiceGroup>();
 	Stack<Choice> choiceStack = new Stack<Choice>();
 	Stack<Option> optionStack = new Stack<Option>();
@@ -36,6 +45,50 @@ public class GUI extends JFrame implements ActionListener {
 	Choice currentChoice;
 	Option currentOption;
 	String path;
+	
+	public void saveXMLFile(){
+		try{
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			Document doc = db.newDocument();
+			for(ChoiceGroup g : choiceGroups){
+				Element group = doc.createElement("ChoiceGroup");
+				group.setAttribute("name", g.name);
+				for(Choice c : g.choices){
+					addChoice(c, group, doc);
+				}
+				doc.appendChild(group);
+			}
+			Transformer transformer = TransformerFactory.newInstance().newTransformer();
+			Result output = new StreamResult(new File(path));
+			Source input = new DOMSource(doc);
+
+			transformer.transform(input, output);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void addChoice(Choice c, Element group, Document doc){
+		Element choice = doc.createElement("Choice");
+		choice.setAttribute("id", c.name);
+		choice.setAttribute("Desc", c.Description);
+		for(Option o : c.Options){
+			addOption(o, choice, doc);
+		}
+		group.appendChild(choice);
+	}
+	
+	public void addOption(Option o, Element choice, Document doc){
+		Element option = doc.createElement("Option");
+		option.setAttribute("Desc", o.Description);
+		option.setAttribute("Response", o.Response);
+		if(o.resultingChoice != null){
+			addChoice(o.resultingChoice, option, doc);
+		}
+		choice.appendChild(option);
+	}
 	
 	public void loadXMLFile(String filename){
 		try{
@@ -134,7 +187,6 @@ public class GUI extends JFrame implements ActionListener {
 	      
 	      //Add a button for each contact in the address book (from a LinkedList)
 	      if(state == 0){
-	    	  System.out.println(choiceGroups.size());
 	    	  for(int i = 0; i < choiceGroups.size(); i++){
 	    		  ChoiceGroup c = choiceGroups.get(i);
 	    		  JButton button = new JButton();
@@ -143,6 +195,130 @@ public class GUI extends JFrame implements ActionListener {
 			      button.addActionListener(this);
 			      button.setActionCommand(c.name);
 	    	  }
+	    	  
+	    	  JButton button = new JButton();
+		      button.setText("Add Group"); //contactList.get(i).getSurname() + ", " + contactList.get(i).getGivenName());
+		      contactListPanel.add(button);
+		      button.addActionListener(this);
+		      button.setActionCommand("Add");
+	      }else if(state == 1){
+	    	  JButton button = new JButton();
+		      button.setText("Name: " + currentGroup.name); //contactList.get(i).getSurname() + ", " + contactList.get(i).getGivenName());
+		      contactListPanel.add(button);
+		      button.addActionListener(this);
+		      button.setActionCommand("Name");
+		      
+		      button = new JButton();
+		      button.setText("Remove Group(and all choices within)"); //contactList.get(i).getSurname() + ", " + contactList.get(i).getGivenName());
+		      contactListPanel.add(button);
+		      button.addActionListener(this);
+		      button.setActionCommand("Remove");
+		      
+		      JLabel label = new JLabel("Choices:");
+		      contactListPanel.add(label);
+		      
+	    	  for(int i = 0; i < currentGroup.choices.size(); i++){
+	    		  Choice c = currentGroup.choices.get(i);
+	    		  button = new JButton();
+			      button.setText(c.name); //contactList.get(i).getSurname() + ", " + contactList.get(i).getGivenName());
+			      contactListPanel.add(button);
+			      button.addActionListener(this);
+			      button.setActionCommand(c.name);
+	    	  }
+	    	  button = new JButton();
+		      button.setText("Add Choice"); //contactList.get(i).getSurname() + ", " + contactList.get(i).getGivenName());
+		      contactListPanel.add(button);
+		      button.addActionListener(this);
+		      button.setActionCommand("Add");
+	    	  
+    		  button = new JButton();
+		      button.setText("Back"); //contactList.get(i).getSurname() + ", " + contactList.get(i).getGivenName());
+		      contactListPanel.add(button);
+		      button.addActionListener(this);
+		      button.setActionCommand("Back");
+	      }else if(state == 2){
+	    	  JButton button = new JButton();
+		      button.setText("Name: " + currentChoice.name); //contactList.get(i).getSurname() + ", " + contactList.get(i).getGivenName());
+		      contactListPanel.add(button);
+		      button.addActionListener(this);
+		      button.setActionCommand("Name");
+		      
+		      button = new JButton();
+		      button.setText("Description: " + currentChoice.Description); //contactList.get(i).getSurname() + ", " + contactList.get(i).getGivenName());
+		      contactListPanel.add(button);
+		      button.addActionListener(this);
+		      button.setActionCommand("Desc");
+		      
+		      button = new JButton();
+		      button.setText("Remove Choice"); //contactList.get(i).getSurname() + ", " + contactList.get(i).getGivenName());
+		      contactListPanel.add(button);
+		      button.addActionListener(this);
+		      button.setActionCommand("Remove");
+		      
+		      JLabel label = new JLabel("Options:");
+		      contactListPanel.add(label);
+		      
+	    	  for(int i = 0; i < currentChoice.Options.size(); i++){
+	    		  Option o = currentChoice.Options.get(i);
+	    		  button = new JButton();
+			      button.setText(o.Description); //contactList.get(i).getSurname() + ", " + contactList.get(i).getGivenName());
+			      contactListPanel.add(button);
+			      button.addActionListener(this);
+			      button.setActionCommand(o.Description);
+	    	  }
+	    	  
+	    	  button = new JButton();
+		      button.setText("Add Option"); //contactList.get(i).getSurname() + ", " + contactList.get(i).getGivenName());
+		      contactListPanel.add(button);
+		      button.addActionListener(this);
+		      button.setActionCommand("Add");
+	    	  
+    		  button = new JButton();
+		      button.setText("Back"); //contactList.get(i).getSurname() + ", " + contactList.get(i).getGivenName());
+		      contactListPanel.add(button);
+		      button.addActionListener(this);
+		      button.setActionCommand("Back");
+	      }else if(state == 3){
+	    	  JButton button = new JButton();
+		      button.setText("Name: " + currentOption.Description); //contactList.get(i).getSurname() + ", " + contactList.get(i).getGivenName());
+		      contactListPanel.add(button);
+		      button.addActionListener(this);
+		      button.setActionCommand("Name");
+		      
+		      button = new JButton();
+		      button.setText("Response: " + currentOption.Response); //contactList.get(i).getSurname() + ", " + contactList.get(i).getGivenName());
+		      contactListPanel.add(button);
+		      button.addActionListener(this);
+		      button.setActionCommand("Response");
+		      
+		      button = new JButton();
+		      button.setText("Remove Option"); //contactList.get(i).getSurname() + ", " + contactList.get(i).getGivenName());
+		      contactListPanel.add(button);
+		      button.addActionListener(this);
+		      button.setActionCommand("Remove");
+		      
+		      JLabel label = new JLabel("Resulting Choice:");
+		      contactListPanel.add(label);
+		      
+		      if(currentOption.resultingChoice != null){
+	    		  button = new JButton();
+			      button.setText(currentOption.resultingChoice.name); //contactList.get(i).getSurname() + ", " + contactList.get(i).getGivenName());
+			      contactListPanel.add(button);
+			      button.addActionListener(this);
+			      button.setActionCommand("resultingChoice");
+		      }else{
+		    	  button = new JButton();
+			      button.setText("Add Resulting Choice"); //contactList.get(i).getSurname() + ", " + contactList.get(i).getGivenName());
+			      contactListPanel.add(button);
+			      button.addActionListener(this);
+			      button.setActionCommand("Add");
+		      }
+			      
+    		  button = new JButton();
+		      button.setText("Back"); //contactList.get(i).getSurname() + ", " + contactList.get(i).getGivenName());
+		      contactListPanel.add(button);
+		      button.addActionListener(this);
+		      button.setActionCommand("Back");
 	      }
 	      
 	      //(...)
@@ -178,7 +354,136 @@ public class GUI extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		// TODO Auto-generated method stub
 		if(state == 0){
+			for(ChoiceGroup g : choiceGroups){
+				if(g.name.equals(event.getActionCommand())){
+					currentGroup = g;
+					state = 1;
+					this.setContentPane(new JPanel());
+					setupButtons();
+					break;
+				}
+			}
+		}else if(state == 1){
+			if(event.getActionCommand().equals("Name")){
+				String s = (String)JOptionPane.showInputDialog(
+                        this,
+                        "New Value:",
+                        "ModifyValue",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        currentGroup.name);
+				currentGroup.name = s;
+				saveXMLFile();
+				this.setContentPane(new JPanel());
+				setupButtons();
+			}
+			if(event.getActionCommand().equals("Back")){
+				state = 0;
+				this.setContentPane(new JPanel());
+				setupButtons();
+			}
+			for(Choice c : currentGroup.choices){
+				if(c.name.equals(event.getActionCommand())){
+					currentChoice = c;
+					state = 2;
+					this.setContentPane(new JPanel());
+					setupButtons();
+					break;
+				}
+			}
+		}else if(state == 2){
+			if(event.getActionCommand().equals("Name")){
+				String s = (String)JOptionPane.showInputDialog(
+                        this,
+                        "New Value:",
+                        "ModifyValue",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        currentChoice.name);
+				currentChoice.name = s;
+				saveXMLFile();
+				this.setContentPane(new JPanel());
+				setupButtons();
+			}
+			if(event.getActionCommand().equals("Desc")){
+				String s = (String)JOptionPane.showInputDialog(
+                        this,
+                        "New Value:",
+                        "ModifyValue",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        currentChoice.Description);
+				currentChoice.Description = s;
+				saveXMLFile();
+				this.setContentPane(new JPanel());
+				setupButtons();
+			}
+			if(event.getActionCommand().equals("Back")){
+				if(optionStack.isEmpty()){
+					state = 1;
+				}else{
+					currentOption = optionStack.pop();
+					state = 3;
+				}
+				this.setContentPane(new JPanel());
+				setupButtons();
+			}
+			for(Option o : currentChoice.Options){
+				if(o.Description.equals(event.getActionCommand())){
+					currentOption = o;
+					state = 3;
+					choiceStack.push(currentChoice);
+					this.setContentPane(new JPanel());
+					setupButtons();
+					break;
+				}
+			}
+		}else if(state == 3){
+			if(event.getActionCommand().equals("Name")){
+				String s = (String)JOptionPane.showInputDialog(
+                        this,
+                        "New Value:",
+                        "ModifyValue",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        currentOption.Description);
+				currentOption.Description = s;
+				saveXMLFile();
+				this.setContentPane(new JPanel());
+				setupButtons();
+			}
+			if(event.getActionCommand().equals("Response")){
+				String s = (String)JOptionPane.showInputDialog(
+                        this,
+                        "New Value:",
+                        "ModifyValue",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        currentOption.Response);
+				currentOption.Response = s;
+				saveXMLFile();
+				this.setContentPane(new JPanel());
+				setupButtons();
+			}
+			if(event.getActionCommand().equals("Back")){
+				currentChoice = choiceStack.pop();
+				state = 2;
+				this.setContentPane(new JPanel());
+				setupButtons();
+			}
 			
+			if(event.getActionCommand().equals("resultingChoice")){
+				optionStack.push(currentOption);
+				currentChoice = currentOption.resultingChoice;
+				state = 2;
+				this.setContentPane(new JPanel());
+				setupButtons();
+			}
 		}
 	}
 

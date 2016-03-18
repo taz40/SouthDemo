@@ -134,6 +134,7 @@
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\SupportLogger.cs" />
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\TimeKeeper.cs" />
     <Compile Include="Assets\Scripts\Choice System\Choice.cs" />
+    <Compile Include="Assets\Scripts\Choice System\ChoiceGroup.cs" />
     <Compile Include="Assets\Scripts\Choice System\ChoiceManager.cs" />
     <Compile Include="Assets\Scripts\Choice System\Option.cs" />
     <Compile Include="Assets\Scripts\LevelScripts\ExplorationGamemode.cs" />

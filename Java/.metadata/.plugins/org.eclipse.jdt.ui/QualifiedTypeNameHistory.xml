@@ -9,4 +9,6 @@
 <fullyQualifiedTypeName name="java.util.Stack"/>
 <fullyQualifiedTypeName name="javax.swing.JFileChooser"/>
 <fullyQualifiedTypeName name="Cheyenne.southhigh.gamedevclub.dialogcreator.ChoiceGroup"/>
+<fullyQualifiedTypeName name="org.w3c.dom.Element"/>
+<fullyQualifiedTypeName name="javax.xml.transform.Result"/>
 </qualifiedTypeNameHistroy>

@@ -5,7 +5,7 @@ using System.Xml;
 using System.IO;
 
 public class ChoiceManager : MonoBehaviour {
-	List<Choice> possibleChoices = new List<Choice>();
+	Dictionary<string, ChoiceGroup> choiceGroups = new Dictionary<string, ChoiceGroup>();
     Choice currentChoice;
 	public GameObject choicePrefab;
 	public GameObject optionPrefab;
@@ -34,19 +34,39 @@ public class ChoiceManager : MonoBehaviour {
             Choice currentChoice = null;
             Stack<Option> options = new Stack<Option>();
             Option currentOption = null;
+            ChoiceGroup currentgroup = null;
             while (xmlReader.Read())
             {
                 if (xmlReader.Name == "Choice")
                 {
                     if (!xmlReader.IsStartElement())
                     {
-                        Debug.Log("Choice Ended");
+                        
                         if (currentOption != null)
                         {
                             currentOption.resultingChoice = currentChoice;
                         }
                         else {
-                            possibleChoices.Add(currentChoice);
+                            currentgroup.choices.Add(currentChoice);
+                        }
+                        if (choices.Count > 0)
+                            currentChoice = choices.Pop();
+                        else
+                            currentChoice = null;
+                    }
+                    else if (xmlReader.IsEmptyElement) {
+                        if (currentChoice != null)
+                            choices.Push(currentChoice);
+                        currentChoice = new Choice();
+                        currentChoice.Description = xmlReader.GetAttribute("Desc");
+                        currentChoice.name = xmlReader.GetAttribute("id");
+                        currentChoice.tag = xmlReader.GetAttribute("tag");
+                        if (currentOption != null)
+                        {
+                            currentOption.resultingChoice = currentChoice;
+                        }
+                        else {
+                            currentgroup.choices.Add(currentChoice);
                         }
                         if (choices.Count > 0)
                             currentChoice = choices.Pop();
@@ -73,6 +93,19 @@ public class ChoiceManager : MonoBehaviour {
                         else
                             currentOption = null;
                     }
+                    else if (xmlReader.IsEmptyElement) {
+                        if (currentOption != null)
+                            options.Push(currentOption);
+                        currentOption = new Option();
+                        currentOption.Description = xmlReader.GetAttribute("Desc");
+                        currentOption.Response = xmlReader.GetAttribute("Response");
+                        if (currentChoice != null)
+                            currentChoice.Options.Add(currentOption);
+                        if (options.Count > 0)
+                            currentOption = options.Pop();
+                        else
+                            currentOption = null;
+                    }
                     else
                     {
                         if (currentOption != null)
@@ -82,9 +115,40 @@ public class ChoiceManager : MonoBehaviour {
                         currentOption.Response = xmlReader.GetAttribute("Response");
                     }
                 }
+                else if (xmlReader.Name == "ChoiceGroup") {
+                    if (!xmlReader.IsStartElement())
+                    {
+                        choiceGroups.Add(currentgroup.name, currentgroup);
+                        currentgroup = null;
+                    }
+                    else if (xmlReader.IsEmptyElement) {
+                        if (choiceGroups.ContainsKey(xmlReader.GetAttribute("name")))
+                        {
+                            currentgroup = choiceGroups[xmlReader.GetAttribute("name")];
+                            choiceGroups.Remove(xmlReader.GetAttribute("name"));
+                        }
+                        else {
+                            currentgroup = new ChoiceGroup();
+                            currentgroup.name = xmlReader.GetAttribute("name");
+                        }
+                        choiceGroups.Add(currentgroup.name, currentgroup);
+                        currentgroup = null;
+                    }
+                    else {
+                        if (choiceGroups.ContainsKey(xmlReader.GetAttribute("name")))
+                        {
+                            currentgroup = choiceGroups[xmlReader.GetAttribute("name")];
+                            choiceGroups.Remove(xmlReader.GetAttribute("name"));
+                        }
+                        else {
+                            currentgroup = new ChoiceGroup();
+                            currentgroup.name = xmlReader.GetAttribute("name");
+                        }
+                    }
+                }
             }
         }
-        showChoice(possibleChoices[0]);
+        showChoice(choiceGroups["Startup"].choices[0]);
         /*
         choice = new Choice();
         choice.Description = "Party or Homework?";
